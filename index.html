@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff8f5">
+  <meta name="description" content="A calm, simple study timer to help you focus, track your sessions, and stay on top of assignments.">
+  <title>Petal — Study Timer</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="Petal home"><span class="brand-mark" aria-hidden="true">✿</span><span>petal<span class="brand-dot">.</span></span></a>
+      <p class="header-note">a little focus goes a long way <span aria-hidden="true">♡</span></p>
+      <button class="goal-chip" id="goalButton" type="button" title="Change daily study goal"><span aria-hidden="true">◎</span> <span id="goalLabel">Goal: 120 min</span></button>
+    </header>
+
+    <main id="home">
+      <section class="intro" aria-labelledby="pageTitle">
+        <p class="eyebrow">YOUR GENTLE STUDY SPACE</p>
+        <h1 id="pageTitle">Make room to <em>focus.</em></h1>
+        <p class="intro-copy">One thing at a time. You’re doing better than you think.</p>
+      </section>
+
+      <div class="dashboard">
+        <section class="card timer-card" aria-label="Study timer">
+          <div class="timer-heading">
+            <div><p class="eyebrow">FOCUS SESSION</p><h2 id="modeTitle">Time to focus</h2></div>
+            <span class="live-pill"><span class="live-dot"></span><span id="timerStatus">READY WHEN YOU ARE</span></span>
+          </div>
+
+          <div class="mode-tabs" role="group" aria-label="Timer mode">
+            <button class="mode-tab active" data-mode="focus" type="button" aria-pressed="true">Focus</button>
+            <button class="mode-tab" data-mode="short" type="button" aria-pressed="false">Short break</button>
+            <button class="mode-tab" data-mode="long" type="button" aria-pressed="false">Long break</button>
+          </div>
+
+          <div class="timer-wrap">
+            <svg class="timer-ring" viewBox="0 0 260 260" role="img" aria-label="Timer progress">
+              <circle class="ring-track" cx="130" cy="130" r="116"></circle>
+              <circle class="ring-progress" id="progressRing" cx="130" cy="130" r="116"></circle>
+            </svg>
+            <div class="timer-center">
+              <span class="timer-flower" aria-hidden="true">✿</span>
+              <p class="timer-display" id="timerDisplay" aria-live="off">25:00</p>
+              <p class="timer-caption" id="timerCaption">Ready to begin?</p>
+            </div>
+          </div>
+
+          <div class="timer-controls">
+            <button class="button button-primary" id="startButton" type="button"><span aria-hidden="true">▶</span> Start focusing</button>
+            <button class="button button-secondary" id="resetButton" type="button">↺ <span class="sr-only">Reset timer</span></button>
+          </div>
+          <div class="custom-timer">
+            <span>Make it your own</span>
+            <div class="duration-options" role="group" aria-label="Custom focus duration">
+              <button type="button" class="duration-option" data-minutes="15">15 min</button>
+              <button type="button" class="duration-option selected" data-minutes="25">25 min</button>
+              <button type="button" class="duration-option" data-minutes="45">45 min</button>
+              <button type="button" class="duration-option" data-minutes="60">60 min</button>
+            </div>
+          </div>
+        </section>
+
+        <aside class="side-column">
+          <section class="card stats-card" aria-labelledby="statsTitle">
+            <div class="section-heading"><div><p class="eyebrow">LITTLE BY LITTLE</p><h2 id="statsTitle">Today’s progress</h2></div><span class="sparkle" aria-hidden="true">✧</span></div>
+            <div class="stats-row">
+              <div class="stat-box"><span class="stat-icon">◷</span><strong id="minutesToday">0</strong><span>minutes studied</span></div>
+              <div class="stat-box"><span class="stat-icon">✿</span><strong id="sessionsToday">0</strong><span>sessions done</span></div>
+            </div>
+            <div class="goal-progress">
+              <div class="progress-label"><span>Daily goal</span><span id="goalProgressLabel">0 / 120 min</span></div>
+              <div class="progress-track" role="progressbar" aria-label="Daily study goal progress" aria-valuemin="0" aria-valuemax="120" aria-valuenow="0" id="goalProgress"><span id="goalProgressFill"></span></div>
+              <p id="goalEncouragement">Every minute counts. You’ve got this!</p>
+            </div>
+          </section>
+
+          <section class="card tasks-card" aria-labelledby="tasksTitle">
+            <div class="section-heading"><div><p class="eyebrow">CLEAR YOUR MIND</p><h2 id="tasksTitle">Study to-do</h2></div><span class="task-count" id="taskCount">0 left</span></div>
+            <form class="task-form" id="taskForm">
+              <label class="sr-only" for="taskInput">Add a study task</label>
+              <input id="taskInput" type="text" maxlength="120" placeholder="Add an assignment or task…" autocomplete="off" required>
+              <button type="submit" aria-label="Add task">＋</button>
+            </form>
+            <ul class="task-list" id="taskList" aria-live="polite"></ul>
+            <p class="empty-state" id="emptyTasks">A fresh page, a fresh start. Add a task above.</p>
+          </section>
+        </aside>
+      </div>
+    </main>
+
+    <footer><span>Made for your next small win</span><span aria-hidden="true">♡</span><span>Progress is progress.</span></footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog class="goal-dialog" id="goalDialog" aria-labelledby="goalDialogTitle">
+    <form method="dialog" id="goalForm">
+      <button class="dialog-close" type="submit" aria-label="Close">×</button>
+      <p class="eyebrow">A GOAL THAT FEELS GOOD</p>
+      <h2 id="goalDialogTitle">Set your daily goal</h2>
+      <label for="goalInput">Study minutes per day</label>
+      <input id="goalInput" type="number" min="15" max="1440" step="15" value="120" required>
+      <button class="button button-primary dialog-save" id="saveGoalButton" type="button">Save my goal</button>
+    </form>
+  </dialog>
+</body>
+</html>
